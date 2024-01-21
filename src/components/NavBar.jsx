@@ -1,12 +1,19 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import logo from '../assets/banana-01.png';
 import { useNavigate, Link } from 'react-router-dom';
+import {AuthContextProvider} from "../context/AuthContext";
 
 function NavBar() {
   const navigate = useNavigate();
+  const{isAuth, logOut, logIn} = useContext(AuthContextProvider)
+console.log(isAuth)
 
+  useEffect(() => {
+
+  }, []);
   return (
-    <nav>
+
+      <nav>
         <Link to="/">
           <span className="logo-container">
             <img src={logo} alt="logo"/>
@@ -19,8 +26,9 @@ function NavBar() {
       <div>
         <button
           type="button"
-          onClick={() => navigate('/signin')}
+          onClick={() => logIn()}
         >
+
           Log in
         </button>
         <button
@@ -30,7 +38,19 @@ function NavBar() {
           Registreren
         </button>
       </div>
+
+      {isAuth === true &&
+      <button
+          type='button'
+          onClick={() => logOut()}
+
+      >
+        Log uit
+      </button>
+      }
+
     </nav>
+
   );
 }
 

@@ -1,40 +1,38 @@
-import {useState} from "react";
-import {useNavigate} from "react-router-dom";
+import React, { createContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export function AuthContextProvider({children}) {
-    const [isAuth, setIsAuth] = useState(false);
+export const AuthContext = createContext({});
+
+function AuthContextProvider({ children }) {
+    const [isAuth, setIsAuth] = useState({isAuth: false, user: ''});
     const navigate = useNavigate();
 
-    function setAuthTrue() {
-        setIsAuth(true)
+    function login() {
+        setIsAuth({isAuth: true, user: email});
+        console.log('Gebruiker is ingelogd!');
+        navigate('/profile');
     }
 
-    function setAuthFalse() {
-        setIsAuth(false)
+    function logout() {
+       setIsAuth({isAuth: false, user: ''});
+        console.log('Gebruiker is uitgelogd!');
+        navigate('/');
     }
 
-    function logOut() {
-        console.log('Gebruiker is uitgelogd');
-        setIsAuth(false);
-        navigate('/')
-    }
 
-    function logIn() {
-        console.log('gebruiker is gelogd');
-        setIsAuth(true);
-        navigate('/profile')
-    }
 
-    const data= {
+    const contextData = {
         isAuth: isAuth,
-        logOut: logOut,
-        logIn: logIn,
+        logIn: login,
+        logOut: logout,
+        user: isAuth.user,
+    };
 
-    }
-
-    return(
-        <AuthContextProvider value={data}>
+    return (
+        <AuthContext.Provider value={contextData}>
             {children}
-        </AuthContextProvider>
-    )
+        </AuthContext.Provider>
+    );
 }
+
+export default AuthContextProvider;

@@ -1,36 +1,78 @@
-import React, { useContext } from 'react';
+import React, {useContext, useState} from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import signUp from "./SignUp";
+import axios from "axios";
+
 
 function SignIn() {
-    const { login } = useContext(AuthContext);
+    const {logIn} = useContext(AuthContext);
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
 
+    const baseUrl = 'http://localhost:3000'
     function handleSubmit(e) {
         e.preventDefault();
-
+        logIn();
+        void requestLogIn(formData);
+    }
+    function handleChange(e) {
+        const { name, value } = e.target;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     }
 
-    return (
-        <>
-            <h1>Inloggen</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias cum debitis dolor dolore fuga id molestias qui quo unde?</p>
+        async function requestLogIn(formData) {
+            try {
+                const response = await axios.post(`${baseUrl}/login`, {
+                    email: formData.email,
+                    password: formData.password,
+                })
+                console.log('response', response);
+            } catch (e) {
+                console.error(e)
+            } finally {
 
-            <form onSubmit={handleSubmit}>
+            }
 
-                <label htmlFor='email'>Email</label>
-                <input type='email' id= 'email-field'/>
+        }
 
-                <label htmlFor='password'>Wachtwoord</label>
-                <input type='password' id= 'password-field'/>
+        return (
+            <>
+                <h1>Inloggen</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab alias cum debitis dolor dolore fuga id
+                    molestias qui quo unde?</p>
+
+                <form onSubmit={handleSubmit}>
+
+                    <label htmlFor='email'>Email
+                        <input
+                            type='email'
+                            name='email'
+                            value={formData.email}
+                            onChange={handleChange}
+                        />
+                    </label>
+
+                    <label htmlFor='password'>Email
+                        <input
+                            type='password'
+                            name='password'
+                            value={formData.password}
+                            onChange={handleChange}
+                        />
+                    </label>
 
 
-                <button type="submit" onClick={handleSubmit}>Inloggen</button>
-            </form>
+                    <button type="submit" onClick={handleSubmit}>Inloggen</button>
+                </form>
 
-            <p>Heb je nog geen account? <Link to="/signup">Registreer</Link> je dan eerst.</p>
-        </>
-    );
+                <p>Heb je nog geen account? <Link to="/signup">Registreer</Link> je dan eerst.</p>
+            </>
+        );
+
 }
-
 export default SignIn;

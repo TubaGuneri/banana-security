@@ -83,7 +83,7 @@ console.error (e)
                 />
             </label>
 
-            <button type='submit' onClick={() => handleSubmit}>Registreren</button>
+            <button type='submit' onClick={handleSubmit}>Registreren</button>
       </form>
       <p>Heb je al een account? Je kunt je <Link to="/signin">hier</Link> inloggen.</p>
     </>

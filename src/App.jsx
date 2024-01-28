@@ -6,7 +6,7 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/SignUp';
 import './App.css';
-import {AuthContext} from "./context/AuthContext";
+import AuthContextProvider, {AuthContext} from "./context/AuthContext";
 
 function App() {
  const { isAuth } = useContext(AuthContext);
@@ -15,12 +15,14 @@ function App() {
     <>
       <NavBar />
       <div className="content">
+          <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={isAuth ? <Profile /> : <Navigate to="/" />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
+          </AuthContextProvider>
       </div>
     </>
   );

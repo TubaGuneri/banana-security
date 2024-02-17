@@ -1,16 +1,15 @@
 import React, {useContext, useEffect} from 'react';
 import logo from '../assets/banana-01.png';
-import { useNavigate, Link } from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import {AuthContext} from "../context/AuthContext";
 
 function NavBar() {
   const{isAuth, logout} = useContext(AuthContext);
   const navigate = useNavigate();
   console.log(isAuth)
+// const history= useHistory();
 
-  useEffect(() => {
 
-  }, []);
   return (
 <>
       <nav>
@@ -32,7 +31,7 @@ function NavBar() {
             >
               Log uit
             </button>
-:
+            :
             <div>
               <button
                   type="button"

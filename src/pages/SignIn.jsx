@@ -1,7 +1,8 @@
 import React, {useContext, useState} from 'react';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import axios from "axios";
+
 
 
 function SignIn() {
@@ -11,7 +12,9 @@ function SignIn() {
         password: '',
     });
 
-    const baseUrl = 'http://localhost:3000'
+    const baseUrl = 'http://localhost:3000';
+    const navigate = useNavigate();
+
     function handleSubmit(e) {
         e.preventDefault();
         logIn();
@@ -31,11 +34,11 @@ function SignIn() {
                     email: formData.email,
                     password: formData.password,
                 })
-                console.log('response', response);
+                console.log(response.data.accessToken);
             } catch (e) {
                 console.error(e)
             } finally {
-
+                navigate('/profile');
             }
 
         }
@@ -57,7 +60,7 @@ function SignIn() {
                         />
                     </label>
 
-                    <label htmlFor='password'>Email
+                    <label htmlFor='password'>Password
                         <input
                             type='password'
                             name='password'
